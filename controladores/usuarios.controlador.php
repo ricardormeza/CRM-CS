@@ -11,7 +11,9 @@ class ControladorUsuarios{
 		if(isset($_POST["ingUsuario"])){
 
 			if(preg_match('/^[a-zA-Z0-9]+$/', $_POST["ingUsuario"]) &&
-			   preg_match('/^[a-zA-Z0-9]+$/', $_POST["ingPassword"])){
+				preg_match('/^[a-zA-Z0-9]+$/', $_POST["ingPassword"])){
+
+				$encriptar = crypt($_POST["ingPassword"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
 
 				$tabla = "usuarios";
 
@@ -20,9 +22,14 @@ class ControladorUsuarios{
 
 				$respuesta = ModeloUsuarios::MdlMostrarUsuarios($tabla, $item, $valor);
 
-				if($respuesta["usuario"] == $_POST["ingUsuario"] && $respuesta["password"] == $_POST["ingPassword"]){
+				if($respuesta["usuario"] == $_POST["ingUsuario"] && $respuesta["password"] == $encriptar){
 
 					$_SESSION["iniciarSesion"] = "ok";
+					$_SESSION["id"] = $respuesta["id"];
+					$_SESSION["nombre"] = $respuesta["nombre"];
+					$_SESSION["usuario"] = $respuesta["usuario"];
+					$_SESSION["foto"] = $respuesta["foto"];
+					$_SESSION["perfil"] = $respuesta["perfil"];
 
 					echo '<script>
 

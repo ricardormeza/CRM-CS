@@ -25,10 +25,17 @@
 				<ul class="nav navbar-nav">
 					<li class="dropdown user user-menu">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-							<!-- IMAGEN DE PERFIL POR DEFECTO -->
-							<img src="vistas/img/usuarios/default/anonymous.png" class="user-image">
-							<!-- IMAGEN DE PERFIL POR DEFECTO --> 
-							<span class="hidden-xs">Usuario Administrador</span>
+							<!-- IMAGEN DE PERFIL CON INICIO DE SESIÓN -->
+							<?php
+								if($_SESSION["foto"] != ""){
+									echo '<img src="'.$_SESSION["foto"].'" class="user-image">';
+								}else{
+									// IMAGEN POR DEFAULT CUANDO USUARIO NO TIENE SESIÓN
+									echo '<img src="vistas/img/usuarios/default/anonymous.png" class="user-image">';
+								}
+							?>
+							<!-- NOMBRE DE USUARIO CON SESIÓN INICIADA --> 
+							<span class="hidden-xs"><?php  echo $_SESSION["nombre"]; ?></span><!-- NOMBRE DE USUARIO QUE ACCEDIO A LA SESION --> 
 						</a>
 						<!-- Dropdown-toggle -->
 						<ul class="dropdown-menu">
