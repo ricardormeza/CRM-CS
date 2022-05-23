@@ -50,7 +50,59 @@
               </tr>
             </thead>
             <tbody>
-              
+              <?php
+                $item = null;
+                $valor = null;
+
+                $usuarios = ControladorUsuarios::ctrMostrarUsuarios($item, $valor);
+
+                // var_dump($usuarios);
+                foreach ($usuarios as $key => $value){
+         
+                  echo ' <tr>
+                          <td>1</td>
+                          <td>'.$value["nombre"].'</td>
+                          <td>'.$value["usuario"].'</td>';
+        
+                          if($value["foto"] != ""){
+        
+                            echo '<td><img src="'.$value["foto"].'" class="img-thumbnail" width="40px"></td>';
+        
+                          }else{
+        
+                            echo '<td><img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail" width="40px"></td>';
+        
+                          }
+        
+                          echo '<td>'.$value["perfil"].'</td>';
+        
+                          if($value["estado"] != 0){
+        
+                            echo '<td><button class="btn btn-success btn-xs btnActivar" idUsuario="'.$value["id"].'" estadoUsuario="0">Activado</button></td>';
+        
+                          }else{
+        
+                            echo '<td><button class="btn btn-danger btn-xs btnActivar" idUsuario="'.$value["id"].'" estadoUsuario="1">Desactivado</button></td>';
+        
+                          }             
+        
+                          echo '<td>'.$value["ultimo_login"].'</td>
+                          <td>
+        
+                            <div class="btn-group">
+                                
+                              <button class="btn btn-warning btnEditarUsuario" idUsuario="'.$value["id"].'" data-toggle="modal" data-target="#modalEditarUsuario"><i class="fa fa-pencil"></i></button>
+        
+                              <button class="btn btn-danger btnEliminarUsuario" idUsuario="'.$value["id"].'" fotoUsuario="'.$value["foto"].'" usuario="'.$value["usuario"].'"><i class="fa fa-times"></i></button>
+        
+                            </div>  
+        
+                          </td>
+        
+                        </tr>';
+                }
+
+              ?>
 
             </tbody>
           </table>
@@ -130,16 +182,103 @@
                   $crearUsuario = new ControladorUsuarios();
                   $crearUsuario -> ctrCrearUsuario();
 
-
                 ?>
-
-
 
             </form>
           </div>
-          
         </div>
-      </div>
+      </div><!-- FIN MODAL AGREGAR USUARIOS -->
+            
+
+      <!--=====================================
+        MODAL EDITAR USUARIO
+      ======================================-->
+      <!-- MODAL Editar USUARIOS -->
+          <!-- Modal -->
+          <div class="modal fade" id="modalEditarUsuario" role="dialog">
+        <div class="modal-dialog">
+          <!-- Modal content-->
+          <div class="modal-content" style="border-radius: 1rem;">
+            <!-- ENVIO DE FORMULARIO -->
+            <form role="form" method="post" action="" enctype="multipart/form-data">
+              <!-- HEADER-MODAL -->
+                <div class="modal-header" style="background-color: #3c8dbc; color:white;">
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  <h4 class="modal-title">Editar usuarios</h4>
+                </div>
+                <div class="modal-body">
+                  <div class="box-body">
+                    <!-- EDITAR NOMBRE INICIO -->
+                    <div class="form-group">
+                      <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                        <input class="form-control input-lg" type="text" id="editarNombre" name="editarNombre" value="" required> 
+                      </div>
+                    </div>
+                    <!-- EDITAR NOMBRE FIN -->
+                    <!-- EDITAR NOMBRE USUARIO -->
+                    <div class="form-group">
+                      <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-key"></i></span>
+                        <input class="form-control input-lg" type="text" id="editarUsuario" name="editarUsuario" value="" readonly> 
+                      </div>
+                    </div>
+                    <!-- EDITAR USUARIO FIN -->
+                    <!-- EDITAR NOMBRE CONTRASEÑA -->
+                    <div class="form-group">
+                      <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                        <input class="form-control input-lg" type="password" name="editarPassword" placeholder="Escribe una nueva contraseña" required> 
+                        <input type="hidden" id="passwordActual" name="passwordActual">
+                      </div>
+                    </div>
+                    <!-- EDITAR CONTRASEÑA FIN -->
+                    <!-- EDITAR PERFIL -->
+                    <div class="form-group">
+                      <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-users"></i></span>
+                        <select class="form-control input-lg" name="editarPerfil" id="">
+                          <option value="" id="editarPerfil"></option>
+                          <option value="Administrador">Administrador</option>
+                          <option value="Callcenter">Call Center</option>
+                          <option value="Ventas">Vendedor</option>
+                        </select>
+                      </div>
+                    </div>
+                    <!-- INGRESAR PERFIL FIN -->
+                    <!-- EDITAR FOTO-PERFIL -->
+                    <div class="form-group">
+                      <div class="panel">Subir foto</div>
+                      <!-- <input type="file" id="nuevaFoto" class="nuevaFoto" name="nuevaFoto"> -->
+                      <input type="file" class="nuevaFoto"  name="editarFoto">
+                      <p class="help-block">Peso máximo de la foto 2MB</p>
+                      <img src="vistas/img/usuarios/default/anonymous.png" class="img-thumbnail previsualizar" width="100px" alt="imagen muestra">
+                      <input type="hidden" name="fotoActual" id="fotoActual">
+                    </div>
+                    <!-- EDITAR FOTO-PERFIL FIN -->
+                  </div>
+                </div>
+                <!-- PIE DE MODAL -->
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default pull-left" data-dismiss="modal">salir</button>
+                  <button type="submit" class="btn btn-primary">Modificar usuario</button>
+                </div>
+
+                <?php
+                  $editarUsuario = new ControladorUsuarios();
+                  $editarUsuario -> ctrEditarUsuario();
+
+                ?> 
+
+            </form>
+          </div>
+        </div>
+      </div><!-- FIN MODAL AGREGAR USUARIOS -->
+
+      
+
+
+
 
       <!-- /.box-body -->
       <div class="box-footer">

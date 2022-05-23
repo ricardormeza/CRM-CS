@@ -51,8 +51,11 @@ $(".nuevaFoto").change(function(){
 EDITAR USUARIO
 =============================================*/
 $(document).on("click", ".btnEditarUsuario", function(){
-
+// $(".btnEditarUsuario").click(function(){
+	
 	var idUsuario = $(this).attr("idUsuario");
+	// console.log("idUsuario", idUsuario);
+
 	
 	var datos = new FormData();
 	datos.append("idUsuario", idUsuario);
@@ -67,7 +70,7 @@ $(document).on("click", ".btnEditarUsuario", function(){
 		processData: false,
 		dataType: "json",
 		success: function(respuesta){
-			
+			// console.log("respuesta", respuesta);
 			$("#editarNombre").val(respuesta["nombre"]);
 			$("#editarUsuario").val(respuesta["usuario"]);
 			$("#editarPerfil").html(respuesta["perfil"]);
